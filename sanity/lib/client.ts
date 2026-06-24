@@ -1,10 +1,12 @@
 import { createClient } from 'next-sanity'
-
 import { apiVersion, dataset, projectId } from '../env'
 
+// CDN client — used in all RSC page fetches for maximum speed
 export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: true, // Set to false if statically generating pages, using ISR or tag-based revalidation
+  useCdn: true,
+  perspective: 'published',
+  stega: { enabled: false },
 })

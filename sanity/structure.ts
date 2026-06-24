@@ -1,15 +1,51 @@
-import type {StructureResolver} from 'sanity/structure'
+import type { StructureResolver } from 'sanity/structure'
 
-// https://www.sanity.io/docs/structure-builder-cheat-sheet
+// Singletons — document types that should only have one document
+const singletons = new Set(['homePage', 'siteSettings'])
+
 export const structure: StructureResolver = (S) =>
   S.list()
-    .title('Blog')
+    .title('E-Commerce')
     .items([
-      S.documentTypeListItem('post').title('Posts'),
-      S.documentTypeListItem('category').title('Categories'),
-      S.documentTypeListItem('author').title('Authors'),
+      // ── Singletons ──────────────────────────────────
+      S.listItem()
+        .title('🏠 Homepage')
+        .id('homePage')
+        .child(
+          S.editor()
+            .id('homePage')
+            .schemaType('homePage')
+            .documentId('singleton-homePage')
+        ),
+
+      S.listItem()
+        .title('⚙️ Site Settings')
+        .id('siteSettings')
+        .child(
+          S.editor()
+            .id('siteSettings')
+            .schemaType('siteSettings')
+            .documentId('singleton-siteSettings')
+        ),
+
       S.divider(),
+
+      // ── Products ─────────────────────────────────────
+      S.documentTypeListItem('product').title('📦 Products'),
+      S.documentTypeListItem('category').title('🗂️ Categories'),
+
+      S.divider(),
+
+      // ── Pages ────────────────────────────────────────
+      S.documentTypeListItem('staticPage').title('📄 Static Pages'),
+
+      S.divider(),
+
+      // ── Catch-all for any remaining types not listed above ──
       ...S.documentTypeListItems().filter(
-        (item) => item.getId() && !['post', 'category', 'author'].includes(item.getId()!),
+        (item) =>
+          item.getId() !== undefined &&
+          !singletons.has(item.getId()!) &&
+          !['product', 'category', 'staticPage'].includes(item.getId()!)
       ),
     ])
