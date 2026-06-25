@@ -3,7 +3,8 @@
 **Project:** RathTech E-Commerce Platform  
 **Stack:** Next.js 16 · TypeScript · Tailwind CSS v4 · Shadcn UI · Sanity CMS v5 · Vercel  
 **Total Estimated Time:** 14–18 days (solo developer, full days)  
-**Reference:** See `ARCHITECTURE.md` for full technical decisions behind every item below.
+**Reference:** See `ARCHITECTURE.md` for full technical decisions behind every item below.  
+**Status:** See [`STATUS.md`](STATUS.md) for live progress and portal links.
 
 ---
 

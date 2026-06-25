@@ -8,6 +8,21 @@
 
 ---
 
+## 🔗 Portal Links
+
+| Portal | URL | Status |
+|---|---|---|
+| **Live Site** | [https://yourdomain.com](https://yourdomain.com) | Replace after deploy |
+| **Sanity Studio (CMS)** | [https://yourdomain.com/studio](https://yourdomain.com/studio) | Replace after deploy |
+| **Sanity Manage** | [https://sanity.io/manage](https://sanity.io/manage) | Live now |
+| **Vercel Dashboard** | [https://vercel.com/dashboard](https://vercel.com/dashboard) | After Vercel setup |
+| **GitHub Repository** | [https://github.com/YOUR_USERNAME/YOUR_REPO](https://github.com/YOUR_USERNAME/YOUR_REPO) | After GitHub push |
+| **Google Search Console** | [https://search.google.com/search-console](https://search.google.com/search-console) | After domain verified |
+
+> **How to update these:** Once deployed, replace every `yourdomain.com` and `YOUR_USERNAME/YOUR_REPO` above with your actual domain and GitHub repo URL. Then commit.
+
+---
+
 ## At a Glance
 
 | Phase | Name | Status | Notes |

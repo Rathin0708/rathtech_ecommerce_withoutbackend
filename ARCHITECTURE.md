@@ -7,6 +7,20 @@
 
 ---
 
+## 🔗 Project Links
+
+| | URL |
+|---|---|
+| **Live Site** | [https://yourdomain.com](https://yourdomain.com) |
+| **Sanity Studio (CMS Portal)** | [https://yourdomain.com/studio](https://yourdomain.com/studio) |
+| **Sanity Manage Dashboard** | [https://sanity.io/manage](https://sanity.io/manage) |
+| **Vercel Dashboard** | [https://vercel.com/dashboard](https://vercel.com/dashboard) |
+| **GitHub Repository** | [https://github.com/YOUR_USERNAME/YOUR_REPO](https://github.com/YOUR_USERNAME/YOUR_REPO) |
+
+> Replace placeholders above with real URLs after deployment. See [`STATUS.md`](STATUS.md) for the deployment checklist.
+
+---
+
 ## Table of Contents
 
 1. [Executive Summary](#1-executive-summary)
