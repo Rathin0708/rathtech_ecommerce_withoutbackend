@@ -119,13 +119,11 @@ export const PRODUCTS_QUERY = groq`
     && price >= $minPrice
     && price <= $maxPrice
   ] | order(
-    select(
-      $sort == "price-asc"    => price asc,
-      $sort == "price-desc"   => price desc,
-      $sort == "name-asc"     => name asc,
-      $sort == "best-sellers" => isFeatured desc,
-      publishedAt desc
-    )
+    select($sort == "price-asc"    => price) asc,
+    select($sort == "price-desc"   => price) desc,
+    select($sort == "name-asc"     => name) asc,
+    select($sort == "best-sellers" => isFeatured) desc,
+    publishedAt desc
   ) [$start..$end] {
     ${PRODUCT_CARD_FIELDS}
   }
