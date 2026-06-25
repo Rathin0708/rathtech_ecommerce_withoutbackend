@@ -2,7 +2,7 @@
 
 **Stack:** Next.js 16 · TypeScript · Tailwind CSS v4 · Shadcn UI v4 · Sanity CMS v5 · Vercel  
 **Last Updated:** 2026-06-25  
-**Overall Progress:** Phase 4 of 8 complete — 50%
+**Overall Progress:** Phase 5 of 8 complete — 63%
 
 > Reference documents: `ARCHITECTURE.md` (all technical decisions) · `IMPLEMENTATION_PLAN.md` (full task breakdown per phase)
 
@@ -16,7 +16,7 @@
 | 2 | Sanity CMS | ✅ **Complete** | Typegen + seed data need Sanity credentials |
 | 3 | Homepage | ✅ **Complete** | Build · Lint · TS all pass |
 | 4 | Product Pages | ✅ **Complete** | Build · Lint · TS all pass |
-| 5 | Cart & Checkout | 🔲 **Not Started** | Depends on Phase 4 |
+| 5 | Cart & Checkout | ✅ **Complete** | Build · Lint · TS all pass |
 | 6 | SEO | 🔲 **Not Started** | Depends on Phase 4 & 5 |
 | 7 | Testing & Polish | 🔲 **Not Started** | Depends on Phase 6 |
 | 8 | Deployment | 🔲 **Not Started** | Final phase |
@@ -207,26 +207,30 @@
 
 ---
 
-## 🔲 Phase 5 — Cart & WhatsApp Checkout — NOT STARTED
+## ✅ Phase 5 — Cart & WhatsApp Checkout — COMPLETE
 
-**Estimated time:** 1 day  
-**Depends on:** Phase 4 (WhatsApp message generator, product types)
+**Commit:** `feat(cart): complete Phase 5 — cart drawer, cart page, and WhatsApp checkout`
 
-### All files to create
+### Completed Tasks
 
 **Cart Components** (`components/cart/`)
-- [ ] `CartItem.tsx` — image · name · variant · qty controls · line total · remove
-- [ ] `CartSummary.tsx` — subtotal · delivery note · optional order notes textarea
-- [ ] `CartDrawer.tsx` — Shadcn Sheet (right side) · item list · summary · checkout CTA · empty state
+- [x] `CartItem.tsx` — product image (Next.js Image / placeholder) · name · variant text · QuantitySelector · line total · accessible remove button
+- [x] `CartSummary.tsx` — subtotal row · optional order notes Textarea · delivery note
+- [x] `CartDrawer.tsx` — Base UI Sheet (right side) · controlled by uiStore.isCartOpen · empty state with shop link · footer with CartSummary + WhatsAppCheckoutButton + view-full-cart link
+- [x] `CartPageContent.tsx` (Client Component) — two-column desktop / stacked mobile · AlertDialog clear-cart confirmation · EmptyState fallback
 
 **WhatsApp**
-- [ ] `components/whatsapp/WhatsAppCheckoutButton.tsx` — full cart message generator
+- [x] `WhatsAppCheckoutButton.tsx` — already created in Phase 4 ✅
 
 **Pages**
-- [ ] `app/cart/page.tsx` — full cart page (mobile-friendly alternative to drawer)
+- [x] `app/cart/page.tsx` — Server Component shell · fetches storeNumber · `noIndex: true` metadata
 
-**Layout update**
-- [ ] `app/layout.tsx` — add `<CartDrawer />` alongside Providers
+**Layout**
+- [x] `app/layout.tsx` — made async · fetches storeNumber · CartDrawer wired inside Providers boundary
+
+**Updates**
+- [x] `AddToCartButton` — added `imageUrl` prop so cart items display product thumbnails
+- [x] `ProductActions` — computes `imageUrl` via `urlForImage(product.images[0], 120)` and passes to AddToCartButton
 
 ---
 
