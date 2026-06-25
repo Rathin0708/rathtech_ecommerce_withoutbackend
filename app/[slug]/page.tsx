@@ -1,8 +1,11 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { fetchStaticPage, fetchStaticPageSlugs } from "@/sanity/lib/fetch";
+import { urlForImage } from "@/sanity/lib/image";
 import PortableText from "@/components/shared/PortableText";
 import type { PortableTextBlock } from "@portabletext/types";
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -22,9 +25,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   try {
     const page = await fetchStaticPage(slug);
     if (!page) return {};
+
+    const title = page.seo?.metaTitle ?? page.title;
+    const description = page.seo?.metaDescription ?? undefined;
+    const ogImageUrl = page.seo?.ogImage
+      ? urlForImage(
+          page.seo.ogImage as Parameters<typeof urlForImage>[0],
+          1200,
+          630
+        )
+      : undefined;
+
     return {
-      title: page.seo?.metaTitle ?? page.title,
-      description: page.seo?.metaDescription ?? undefined,
+      title,
+      description,
+      alternates: { canonical: `${siteUrl}/${slug}` },
+      openGraph: {
+        title,
+        description,
+        url: `${siteUrl}/${slug}`,
+        images: ogImageUrl
+          ? [{ url: ogImageUrl, width: 1200, height: 630 }]
+          : [],
+      },
       robots: page.seo?.noIndex ? { index: false } : undefined,
     };
   } catch {

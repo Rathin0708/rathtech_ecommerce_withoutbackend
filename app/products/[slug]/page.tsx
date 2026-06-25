@@ -24,6 +24,8 @@ export async function generateStaticParams() {
   return paths.map(({ slug }) => ({ slug }));
 }
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
 export async function generateMetadata({ params }: PDPProps): Promise<Metadata> {
   const { slug } = await params;
   const product = await fetchProductBySlug(slug);
@@ -36,15 +38,19 @@ export async function generateMetadata({ params }: PDPProps): Promise<Metadata> 
   const ogImageUrl = ogImageSource
     ? urlForImage(ogImageSource as Parameters<typeof urlForImage>[0], 1200, 630)
     : undefined;
+  const canonicalUrl = `${siteUrl}/products/${slug}`;
 
   return {
     title,
     description,
+    alternates: { canonical: canonicalUrl },
     openGraph: {
       title,
       description,
+      url: canonicalUrl,
       images: ogImageUrl ? [{ url: ogImageUrl, width: 1200, height: 630 }] : [],
     },
+    twitter: { card: "summary_large_image", title, description },
     robots: product.seo?.noIndex ? { index: false } : undefined,
   };
 }

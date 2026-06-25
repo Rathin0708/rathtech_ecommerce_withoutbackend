@@ -9,9 +9,18 @@ import Pagination from "@/components/shared/Pagination";
 import EmptyState from "@/components/shared/EmptyState";
 import type { FilterState, SortOption } from "@/types";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
 export const metadata: Metadata = {
   title: "All Products",
   description: "Shop our full collection",
+  // Canonical always points to the clean URL regardless of filter/sort params
+  alternates: { canonical: `${siteUrl}/products` },
+  openGraph: {
+    title: "All Products",
+    description: "Shop our full collection",
+    url: `${siteUrl}/products`,
+  },
 };
 
 const PAGE_SIZE = 24;

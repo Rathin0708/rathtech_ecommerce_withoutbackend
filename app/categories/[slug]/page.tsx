@@ -22,6 +22,7 @@ import { getCategoryUrl } from "@/lib/getCategoryUrl";
 import type { FilterState, SortOption } from "@/types";
 
 const PAGE_SIZE = 24;
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>;
@@ -49,15 +50,21 @@ export async function generateMetadata({
       )
     : undefined;
 
+  const canonicalUrl = `${siteUrl}/categories/${slug}`;
+
   return {
     title,
     description: category.seo?.metaDescription ?? undefined,
+    alternates: { canonical: canonicalUrl },
     openGraph: {
       title,
+      description: category.seo?.metaDescription ?? undefined,
+      url: canonicalUrl,
       images: ogImageUrl
         ? [{ url: ogImageUrl, width: 1200, height: 630 }]
         : [],
     },
+    twitter: { card: "summary_large_image", title },
     robots: category.seo?.noIndex ? { index: false } : undefined,
   };
 }
