@@ -19,6 +19,7 @@ interface AddToCartButtonProps {
   inStock: boolean;
   variant: ProductVariantData | null;
   quantity: number;
+  imageUrl?: string;
   className?: string;
   size?: "default" | "sm" | "lg";
 }
@@ -32,6 +33,7 @@ export default function AddToCartButton({
   inStock,
   variant,
   quantity,
+  imageUrl = "",
   className,
   size = "default",
 }: AddToCartButtonProps) {
@@ -53,7 +55,7 @@ export default function AddToCartButton({
       id: productId,
       slug,
       name,
-      image: "",
+      image: imageUrl,
       price,
       salePrice: salePrice ?? null,
       quantity,

@@ -5,6 +5,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import Providers from "@/components/shared/Providers";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import CartDrawer from "@/components/cart/CartDrawer";
+import { fetchSiteSettings } from "@/sanity/lib/fetch";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -37,19 +39,27 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  let storeNumber = "";
+  try {
+    const settings = await fetchSiteSettings();
+    storeNumber = settings?.whatsappNumber ?? "";
+  } catch {
+    // Sanity not configured
+  }
+
   return (
     <html
       lang="en"
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="flex min-h-full flex-col bg-background text-foreground">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground focus:outline-none"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground focus:outline-none"
         >
           Skip to content
         </a>
@@ -59,6 +69,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <CartDrawer storeNumber={storeNumber} />
         </Providers>
         <Analytics />
         <SpeedInsights />

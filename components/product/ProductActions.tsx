@@ -7,6 +7,7 @@ import AddToCartButton from "@/components/product/AddToCartButton";
 import WhatsAppButton from "@/components/whatsapp/WhatsAppButton";
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { urlForImage } from "@/sanity/lib/image";
 import type { Product, ProductVariantData } from "@/sanity/lib/fetch";
 
 interface ProductActionsProps {
@@ -20,6 +21,13 @@ export default function ProductActions({
 }: ProductActionsProps) {
   const [selectedVariant, setSelectedVariant] =
     useState<ProductVariantData | null>(null);
+
+  const imageUrl = product.images[0]
+    ? urlForImage(
+        product.images[0] as Parameters<typeof urlForImage>[0],
+        120
+      )
+    : "";
   const [quantity, setQuantity] = useState(1);
   const [isStickyVisible, setIsStickyVisible] = useState(false);
   const ctaRef = useRef<HTMLDivElement>(null);
@@ -78,6 +86,7 @@ export default function ProductActions({
                 inStock={product.inStock}
                 variant={selectedVariant}
                 quantity={quantity}
+                imageUrl={imageUrl}
                 className="flex-1"
                 size="lg"
               />
