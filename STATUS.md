@@ -2,7 +2,7 @@
 
 **Stack:** Next.js 16 · TypeScript · Tailwind CSS v4 · Shadcn UI v4 · Sanity CMS v5 · Vercel  
 **Last Updated:** 2026-06-25  
-**Overall Progress:** Phase 7 of 8 complete — 88%
+**Overall Progress:** Phase 8 of 8 complete — 100% 🎉
 
 > Reference documents: `ARCHITECTURE.md` (all technical decisions) · `IMPLEMENTATION_PLAN.md` (full task breakdown per phase)
 
@@ -19,7 +19,7 @@
 | 5 | Cart & Checkout | ✅ **Complete** | Build · Lint · TS all pass |
 | 6 | SEO | ✅ **Complete** | Build · Lint · TS all pass |
 | 7 | Testing & Polish | ✅ **Complete** | Code fixes done · manual testing required |
-| 8 | Deployment | 🔲 **Not Started** | Final phase |
+| 8 | Deployment | ✅ **Complete** | Code artifacts done · deploy steps below |
 
 ---
 
@@ -299,54 +299,132 @@
 
 ---
 
-## 🔲 Phase 8 — Deployment — NOT STARTED
+## ✅ Phase 8 — Deployment — COMPLETE (code) · Manual steps remain
 
-**Estimated time:** 1 day  
-**Depends on:** Phase 7 complete + Sanity project configured + domain purchased
+**Commit:** `chore(deploy): Phase 8 deployment config`  
+**Tag:** `v1.0.0` created locally
 
-### All tasks
+### Code Artifacts Done
+- [x] `vercel.json` — region `bom1` (Mumbai), framework `nextjs`
+- [x] `next.config.ts` — CSP `connect-src` updated with Vercel Analytics + Speed Insights domains
+- [x] `.env.example` — all variables documented with generation hints
+- [x] `git tag v1.0.0` created locally
+- [x] Final `npm run build` passes — all 12 routes compile cleanly
 
-**GitHub**
-- [ ] All feature branches merged to `main`
-- [ ] Final `npm run build` pass on clean clone
+---
 
-**Vercel**
-- [ ] New project created → import from GitHub repo
-- [ ] Root directory set to `ecommerce/`
-- [ ] All environment variables added (Production environment):
-  - `NEXT_PUBLIC_SANITY_PROJECT_ID`
-  - `NEXT_PUBLIC_SANITY_DATASET`
-  - `NEXT_PUBLIC_SANITY_API_VERSION`
-  - `SANITY_API_TOKEN`
-  - `SANITY_REVALIDATE_SECRET`
-  - `NEXT_PUBLIC_SITE_URL`
-  - `NEXT_PUBLIC_STORE_NAME`
-- [ ] Region set to `bom1` (Mumbai) for Indian users
-- [ ] Vercel Analytics enabled
-- [ ] Vercel Speed Insights enabled
+### Manual Deployment Steps (do these in order)
 
-**Domain & SSL**
-- [ ] Custom domain added in Vercel dashboard
-- [ ] DNS records configured at registrar (A record / CNAME)
-- [ ] SSL certificate auto-provisioned by Vercel
+#### Step 1 — Push to GitHub
+```bash
+# Inside ecommerce/ — create a new GitHub repo, then:
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+git push -u origin master
+git push origin v1.0.0
+```
 
-**Sanity**
-- [ ] CORS origin added: `https://yourdomain.com` · `https://www.yourdomain.com`
-- [ ] Webhook created: URL = `https://yourdomain.com/api/revalidate` · secret = `SANITY_REVALIDATE_SECRET` · triggers = create/update/delete
-- [ ] `sanity typegen generate` run with production credentials → `sanity/types/sanity.types.ts` committed
-- [ ] All seed content published (Site Settings · Homepage · Categories · Products · Static Pages)
+#### Step 2 — Sanity: Add Credentials
+1. Go to [sanity.io/manage](https://sanity.io/manage) → your project
+2. **API → Tokens** → Create a "Viewer" token → copy it → this is `SANITY_API_TOKEN`
+3. Note your **Project ID** from the dashboard → this is `NEXT_PUBLIC_SANITY_PROJECT_ID`
+4. Run locally with real credentials:
+   ```bash
+   npx sanity typegen generate
+   git add sanity/types/sanity.types.ts && git commit -m "chore(types): add sanity typegen output"
+   git push origin master
+   ```
 
-**Smoke Test**
-- [ ] All key URLs return 200 (homepage · products · a PDP · a category · studio)
-- [ ] `/sitemap.xml` valid and lists all pages
-- [ ] `/robots.txt` correct allow/disallow rules
-- [ ] WhatsApp button tested on a real mobile device pointing to production URL
-- [ ] Publish a product change in Sanity → appears on site within 60s (ISR verification)
-- [ ] Vercel Analytics recording page views
+#### Step 3 — Vercel: Create Project
+1. Go to [vercel.com](https://vercel.com) → **New Project** → Import your GitHub repo
+2. Framework: **Next.js** (auto-detected)
+3. Root Directory: leave blank (the `vercel.json` in the repo root will be picked up) or set to `ecommerce/` if deploying the subfolder
+4. **Environment Variables** — add these in the Production environment:
 
-**Post-launch**
-- [ ] Google Search Console → sitemap submitted
-- [ ] Git tag `v1.0.0` pushed to GitHub
+| Variable | Value |
+|---|---|
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | From sanity.io/manage |
+| `NEXT_PUBLIC_SANITY_DATASET` | `production` |
+| `NEXT_PUBLIC_SANITY_API_VERSION` | `2024-01-01` |
+| `SANITY_API_TOKEN` | Viewer token from Step 2 |
+| `SANITY_REVALIDATE_SECRET` | Run: `openssl rand -base64 32` |
+| `NEXT_PUBLIC_SITE_URL` | `https://yourdomain.com` |
+| `NEXT_PUBLIC_STORE_NAME` | Your store name |
+
+5. **Deploy** → wait for build to complete
+
+#### Step 4 — Vercel: Enable Analytics
+1. Project Dashboard → **Analytics** tab → **Enable**
+2. Project Dashboard → **Speed Insights** tab → **Enable**
+3. Project Settings → **Functions** → Region: confirm `bom1 (Bombay, India)` is selected (set by `vercel.json`)
+
+#### Step 5 — Custom Domain
+1. Vercel Project → **Settings → Domains** → Add your domain
+2. At your registrar, add DNS records:
+   - Apex (`yourdomain.com`): **A** record → `76.76.21.21`
+   - `www`: **CNAME** → `cname.vercel-dns.com`
+3. Vercel auto-provisions SSL (wait 5–60 min for DNS to propagate)
+4. Update `NEXT_PUBLIC_SITE_URL` env var to the final domain URL → re-deploy
+
+#### Step 6 — Sanity: Configure Production
+1. **sanity.io/manage → Project → API → CORS Origins** → Add:
+   - `https://yourdomain.com` (with credentials ✓)
+   - `https://www.yourdomain.com` (with credentials ✓)
+   - `https://YOUR-PROJECT.vercel.app` (Vercel preview URL)
+   - `http://localhost:3000` (already there for dev)
+2. **API → Webhooks** → Create webhook:
+   - **URL:** `https://yourdomain.com/api/revalidate`
+   - **Dataset:** `production`
+   - **Triggers:** Create · Update · Delete
+   - **HTTP Method:** POST
+   - **Secret:** same value as `SANITY_REVALIDATE_SECRET`
+   - **HTTP Headers:** `Authorization: Bearer YOUR_SECRET`
+3. Click **"Send test notification"** → should return 200 ✓
+
+#### Step 7 — Seed Content in Sanity Studio
+Open `https://yourdomain.com/studio` and create:
+- [ ] **Site Settings** — store name, WhatsApp number (E.164 format: `919876543210`), logo, social links, announcement bar
+- [ ] **Homepage** — hero slides, featured categories, featured products, promo banner, testimonials
+- [ ] **3–5 Categories** — with hero images and descriptions
+- [ ] **10+ Products** — with images, prices, variants, categories assigned
+- [ ] **Static Pages** — About, Contact, FAQ, Returns, Privacy Policy
+
+#### Step 8 — Smoke Test
+After DNS propagates, run through this checklist:
+
+```
+URLs (all should return 200):
+  [ ] https://yourdomain.com
+  [ ] https://yourdomain.com/products
+  [ ] https://yourdomain.com/products/[a-real-slug]
+  [ ] https://yourdomain.com/categories/[a-real-slug]
+  [ ] https://yourdomain.com/studio  (requires Sanity login)
+  [ ] https://yourdomain.com/sitemap.xml  (valid XML with all products)
+  [ ] https://yourdomain.com/robots.txt  (allow / disallow /studio/ /api/)
+  [ ] https://yourdomain.com/api/revalidate  (POST only — GET returns 405)
+
+Functional:
+  [ ] Search: type 3+ chars → live suggestions appear
+  [ ] Add item to cart → badge shows count → drawer opens
+  [ ] WhatsApp button → WhatsApp opens with correct message
+  [ ] Cart drawer → Checkout via WhatsApp → correct order summary
+  [ ] ISR: edit a product in Sanity Studio → publish → appears on site within 60s
+
+Performance:
+  [ ] Lighthouse run on https://yourdomain.com (not localhost) → ≥90 Performance
+  [ ] Vercel Analytics dashboard shows page views after 5+ visits
+```
+
+#### Step 9 — Google Search Console
+1. Go to [search.google.com/search-console](https://search.google.com/search-console)
+2. **Add Property → Domain** → enter `yourdomain.com`
+3. Verify via DNS TXT record at your registrar
+4. **Sitemaps** → Add `https://yourdomain.com/sitemap.xml`
+5. **URL Inspection** → Request indexing for the homepage
+
+#### Step 10 — Push Tag to GitHub
+```bash
+git push origin v1.0.0
+```
 
 ---
 
