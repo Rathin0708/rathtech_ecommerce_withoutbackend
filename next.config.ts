@@ -17,7 +17,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https://cdn.sanity.io",
       "font-src 'self' data:",
-      "connect-src 'self' https://*.sanity.io https://api.sanity.io",
+      "connect-src 'self' https://*.sanity.io https://api.sanity.io https://vitals.vercel-analytics.com https://vitals.vercel-insights.com",
       "media-src 'self'",
       "frame-src https://*.sanity.io",
       "frame-ancestors 'none'",
