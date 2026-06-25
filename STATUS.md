@@ -1,8 +1,8 @@
 # Project Status — RathTech E-Commerce Platform
 
 **Stack:** Next.js 16 · TypeScript · Tailwind CSS v4 · Shadcn UI v4 · Sanity CMS v5 · Vercel  
-**Last Updated:** 2026-06-24  
-**Overall Progress:** Phase 3 of 8 complete — 38%
+**Last Updated:** 2026-06-25  
+**Overall Progress:** Phase 4 of 8 complete — 50%
 
 > Reference documents: `ARCHITECTURE.md` (all technical decisions) · `IMPLEMENTATION_PLAN.md` (full task breakdown per phase)
 
@@ -15,7 +15,7 @@
 | 1 | Project Setup | ✅ **Complete** | Build · Lint · TS all pass |
 | 2 | Sanity CMS | ✅ **Complete** | Typegen + seed data need Sanity credentials |
 | 3 | Homepage | ✅ **Complete** | Build · Lint · TS all pass |
-| 4 | Product Pages | 🔲 **Not Started** | Largest phase — core commerce UI |
+| 4 | Product Pages | ✅ **Complete** | Build · Lint · TS all pass |
 | 5 | Cart & Checkout | 🔲 **Not Started** | Depends on Phase 4 |
 | 6 | SEO | 🔲 **Not Started** | Depends on Phase 4 & 5 |
 | 7 | Testing & Polish | 🔲 **Not Started** | Depends on Phase 6 |
@@ -138,63 +138,72 @@
 
 ---
 
-## 🔲 Phase 4 — Product Pages — NOT STARTED
+## ✅ Phase 4 — Product Pages — COMPLETE
 
-**Estimated time:** 3.5 days  
-**Depends on:** Phase 2 (fetch wrappers) · Phase 3 (SanityImage, Breadcrumb)
+**Commit:** `feat(products): complete Phase 4 — product pages, filters, search, and WhatsApp checkout`
 
-### All files to create
+### Completed Tasks
 
 **Product Components** (`components/product/`)
-- [ ] `ProductBadge.tsx` — colored chip: New · Sale · Best Seller · Limited Edition
-- [ ] `ProductPrice.tsx` — sale price + strike-through original · accessible aria-label
-- [ ] `ProductCard.tsx` — grid card: image · badge · name · price · out-of-stock overlay
-- [ ] `ProductGrid.tsx` — responsive CSS grid: 2-col mobile → 4-col desktop
-- [ ] `ProductGallery.tsx` — main image + thumbnail strip · CSS scroll-snap swipe on mobile
-- [ ] `ProductVariantSelector.tsx` — size pills · color swatches · out-of-stock state
-- [ ] `QuantitySelector.tsx` — +/− buttons · accessible aria-labels
-- [ ] `ProductInfo.tsx` — name (h1) · price · stock badge · short description · variant + qty
-- [ ] `AddToCartButton.tsx` — adds to cart · Sonner toast · loading spinner
-- [ ] `StickyProductCta.tsx` — fixed mobile bottom bar (qty + WhatsApp button)
-- [ ] `RelatedProducts.tsx` — "You may also like" grid (max 4)
+- [x] `ProductBadge.tsx` — colored chip: New · Sale · Best Seller · Limited Edition · Coming Soon
+- [x] `ProductPrice.tsx` — sale price + strike-through original · accessible aria-labels · size variants
+- [x] `ProductCard.tsx` — grid card: image · badge overlay · wishlist heart · name · price · out-of-stock overlay
+- [x] `ProductGrid.tsx` — responsive CSS grid: 2-col mobile → 4-col desktop · configurable columns
+- [x] `ProductGallery.tsx` — main image + thumbnail strip · CSS scroll-snap · keyboard navigation
+- [x] `ProductVariantSelector.tsx` — size pills · color swatches · out-of-stock strikethrough state
+- [x] `QuantitySelector.tsx` — +/− buttons · editable input · clamped on blur · accessible aria-labels
+- [x] `ProductActions.tsx` — Client component: variant selector + qty + AddToCart + WhatsApp CTA + sticky mobile bar (IntersectionObserver)
+- [x] `AddToCartButton.tsx` — adds to cart · Sonner toast with "View Cart" action · 250ms loading spinner
+- [x] `RelatedProducts.tsx` — "You may also like" grid (max 4)
 
 **Filter Components** (`components/filter/`)
-- [ ] `SortDropdown.tsx` — Newest · Price Low→High · High→Low · Best Sellers · A–Z
-- [ ] `FilterGroup.tsx` — accordion checkbox group with active count badge
-- [ ] `ActiveFilters.tsx` — removable filter chips + "Clear all"
-- [ ] `FilterSidebar.tsx` — desktop left sidebar (280px wide)
-- [ ] `FilterSheet.tsx` — mobile bottom sheet with Apply/Clear buttons
+- [x] `SortDropdown.tsx` — Newest · Price Low→High · High→Low · Best Sellers · A–Z · uses useFilters internally
+- [x] `FilterGroup.tsx` — accordion checkbox group with active count badge · native checkbox for accessibility
+- [x] `ActiveFilters.tsx` — removable filter chips + "Clear all" · reads currentFilters prop, uses useFilters internally
+- [x] `FilterSidebar.tsx` — desktop left sidebar (240px) · price range slider with onValueCommitted
+- [x] `FilterSheet.tsx` — mobile bottom sheet · pending state applied on "Apply" · synced from props on open
 
 **WhatsApp Components** (`components/whatsapp/`)
-- [ ] `WhatsAppButton.tsx` — single-product CTA · generates message · fallback detection
-- [ ] `WhatsAppCheckoutButton.tsx` — full cart checkout CTA
-- [ ] `WhatsAppFallbackModal.tsx` — copy-to-clipboard fallback for desktop
+- [x] `WhatsAppButton.tsx` — single-product CTA · popup + 2s blur detection + fallback modal
+- [x] `WhatsAppCheckoutButton.tsx` — full cart checkout CTA · generates complete order message
+- [x] `WhatsAppFallbackModal.tsx` — copy-to-clipboard + WhatsApp Web link fallback
 
 **Search Components** (`components/search/`)
-- [ ] `SearchBar.tsx` — debounced input · clear button · accessible
-- [ ] `SearchSuggestions.tsx` — live dropdown: thumbnail · name · price · keyboard navigation
-- [ ] `SearchModal.tsx` — full-screen overlay for mobile search
+- [x] `SearchBar.tsx` — debounced input · clear button · live suggestions dropdown · submit to search page
+- [x] `SearchSuggestions.tsx` — live dropdown: thumbnail · name · price · recent searches · "See all results" link
+- [x] `SearchModal.tsx` — full-screen dialog overlay for mobile search · trigger button for header
 
 **Shared**
-- [ ] `components/shared/Pagination.tsx` — page number links (crawlable `<a>` tags)
+- [x] `components/shared/Pagination.tsx` — crawlable `<a>` links (not buttons) · ellipsis · prev/next
+- [x] `components/shared/StructuredData.tsx` — JSON-LD `<script>` tag wrapper
 
 **Hooks** (`hooks/`)
-- [ ] `hooks/useFilters.ts` — URL query param filter state via `useSearchParams` + `useRouter`
-- [ ] `hooks/useSearch.ts` — debounced (300ms) search suggestions
-- [ ] `hooks/useWishlist.ts` — localStorage wishlist toggle
+- [x] `hooks/useFilters.ts` — URL navigation with `useRouter` + `usePathname` · setFilter · clearFilter · clearAll · setSort · setMultiple (combined update)
+- [x] `hooks/useSearch.ts` — debounced 300ms fetch · lazy initializer for recentSearches · derived suggestions display
+- [x] `hooks/useWishlist.ts` — localStorage toggle · lazy initializer (SSR-safe)
 
 **Utility**
-- [ ] `lib/generateWhatsAppMessage.ts` — `generateSingleProductMessage()` + `generateCartMessage()`
+- [x] `lib/generateWhatsAppMessage.ts` — `generateSingleProductMessage()` · `generateCartMessage()` · `buildWhatsAppUrl()`
 
 **Pages / Routes**
-- [ ] `app/products/page.tsx` — PLP: filter + sort + grid + pagination (RSC)
-- [ ] `app/products/loading.tsx` — 12-card skeleton
-- [ ] `app/products/[slug]/page.tsx` — PDP: gallery + info + variants + related (RSC)
-- [ ] `app/products/[slug]/loading.tsx` — PDP skeleton
-- [ ] `app/products/[slug]/not-found.tsx` — product not found
-- [ ] `app/categories/[slug]/page.tsx` — category hero + sub-chips + grid (RSC)
-- [ ] `app/categories/[slug]/loading.tsx` — category skeleton
-- [ ] `app/search/page.tsx` — search results (CSR, dynamic)
+- [x] `app/products/page.tsx` — PLP: Server Component · filter + sort + grid + pagination
+- [x] `app/products/loading.tsx` — 12-card skeleton with sidebar
+- [x] `app/products/[slug]/page.tsx` — PDP: Server Component · generateStaticParams · Product JSON-LD · Breadcrumb
+- [x] `app/products/[slug]/loading.tsx` — PDP skeleton
+- [x] `app/products/[slug]/not-found.tsx` — product not found
+- [x] `app/categories/[slug]/page.tsx` — category hero + sub-chips + filter + grid · BreadcrumbList JSON-LD
+- [x] `app/categories/[slug]/loading.tsx` — category skeleton
+- [x] `app/search/page.tsx` — CSR · derives isLoading from fetchedFor tracking (no synchronous setState in effects)
+
+**Updated**
+- [x] `components/home/FeaturedProducts.tsx` — replaced placeholder grid with real `ProductGrid` + `ProductCard`
+
+### Breaking Changes Caught & Fixed
+- Base UI Slider: `onValueChange` returns `number | readonly number[]` — fixed with `Array.isArray()` guard
+- ESLint `react-hooks/set-state-in-effect`: moved all synchronous setState out of effect bodies:
+  - `useWishlist`: lazy initializer instead of useEffect
+  - `useSearch`: lazy initializer for recentSearches; moved setIsLoading(true) inside setTimeout callback; derived `suggestions` display
+  - Search page: derived `isLoading` from `fetchedFor` tracking (no synchronous setState)
 
 ---
 
