@@ -63,7 +63,7 @@ export default function ProductCard({
         </div>
       )}
 
-      {/* Wishlist */}
+      {/* Wishlist — h-10 w-10 (40px) meets WCAG 2.5.8 touch target minimum */}
       <button
         onClick={toggle}
         aria-label={
@@ -71,7 +71,7 @@ export default function ProductCard({
             ? `Remove ${product.name} from wishlist`
             : `Add ${product.name} to wishlist`
         }
-        className="absolute right-2 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-background/80 backdrop-blur-sm transition-colors hover:bg-background"
+        className="absolute right-1.5 top-1.5 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-background/80 backdrop-blur-sm transition-colors hover:bg-background"
       >
         <Heart
           className={cn(

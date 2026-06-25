@@ -1,18 +1,19 @@
 import { cn } from "@/lib/utils";
 import type { BadgeType } from "@/types";
 
+// -600/-700 variants ensure ≥4.5:1 contrast ratio against white for small text (WCAG AA)
 const BADGE_CONFIG: Record<
   BadgeType,
   { label: string; className: string }
 > = {
-  new: { label: "New", className: "bg-emerald-500 text-white" },
-  sale: { label: "Sale", className: "bg-red-500 text-white" },
-  bestSeller: { label: "Best Seller", className: "bg-amber-500 text-white" },
+  new: { label: "New", className: "bg-emerald-600 text-white" },
+  sale: { label: "Sale", className: "bg-red-600 text-white" },
+  bestSeller: { label: "Best Seller", className: "bg-amber-800 text-white" },
   limitedEdition: {
     label: "Limited",
-    className: "bg-purple-500 text-white",
+    className: "bg-purple-600 text-white",
   },
-  comingSoon: { label: "Coming Soon", className: "bg-slate-500 text-white" },
+  comingSoon: { label: "Coming Soon", className: "bg-slate-600 text-white" },
 };
 
 interface ProductBadgeProps {

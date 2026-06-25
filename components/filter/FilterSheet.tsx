@@ -127,6 +127,7 @@ export default function FilterSheet({
             <div className="py-3">
               <p className="mb-3 text-sm font-medium">Price Range</p>
               <Slider
+                aria-label="Price range"
                 min={defaultMin}
                 max={defaultMax}
                 step={Math.max(1, Math.floor((defaultMax - defaultMin) / 100))}

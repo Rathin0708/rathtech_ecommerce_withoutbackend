@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { ShoppingBag } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import WhatsAppFallbackModal from "@/components/whatsapp/WhatsAppFallbackModal";
 import {
@@ -18,6 +19,16 @@ interface WhatsAppCheckoutButtonProps {
   className?: string;
 }
 
+function openWhatsApp(url: string) {
+  const a = document.createElement("a");
+  a.href = url;
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
 export default function WhatsAppCheckoutButton({
   cart,
   storeNumber,
@@ -28,17 +39,21 @@ export default function WhatsAppCheckoutButton({
 
   const handleClick = useCallback(() => {
     if (cart.length === 0) return;
-    const message = generateCartMessage(cart, notes);
-    const waUrl = buildWhatsAppUrl(storeNumber, message);
-    const popup = window.open(waUrl, "_blank");
-    if (!popup) {
+
+    if (!storeNumber) {
       setShowFallback(true);
       return;
     }
-    const timer = setTimeout(() => {
-      if (!document.hidden) setShowFallback(true);
-    }, 2000);
-    window.addEventListener("blur", () => clearTimeout(timer), { once: true });
+
+    const message = generateCartMessage(cart, notes);
+    const waUrl = buildWhatsAppUrl(storeNumber, message);
+    openWhatsApp(waUrl);
+
+    toast.success("Your order has been sent!", {
+      description: "Await confirmation from our team via WhatsApp.",
+      action: { label: "Continue Shopping", onClick: () => {} },
+      duration: 5000,
+    });
   }, [cart, storeNumber, notes]);
 
   const message = generateCartMessage(cart, notes);

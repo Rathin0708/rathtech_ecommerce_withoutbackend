@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { MessageCircle } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import WhatsAppFallbackModal from "@/components/whatsapp/WhatsAppFallbackModal";
 import {
@@ -21,6 +22,19 @@ interface WhatsAppButtonProps {
   label?: string;
 }
 
+function openWhatsApp(url: string): boolean {
+  // Use a temporary anchor so rel="noopener noreferrer" is properly set
+  // and the browser's popup blocker can intercept cleanly.
+  const a = document.createElement("a");
+  a.href = url;
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  return true;
+}
+
 export default function WhatsAppButton({
   product,
   variant,
@@ -35,16 +49,16 @@ export default function WhatsAppButton({
   const waUrl = buildWhatsAppUrl(storeNumber, message);
 
   const handleClick = useCallback(() => {
-    const popup = window.open(waUrl, "_blank");
-    if (!popup) {
+    if (!storeNumber) {
       setShowFallback(true);
       return;
     }
-    const timer = setTimeout(() => {
-      if (!document.hidden) setShowFallback(true);
-    }, 2000);
-    window.addEventListener("blur", () => clearTimeout(timer), { once: true });
-  }, [waUrl]);
+    openWhatsApp(waUrl);
+    toast.success("Opening WhatsApp…", {
+      description: "Complete your order in the WhatsApp chat.",
+      duration: 4000,
+    });
+  }, [waUrl, storeNumber]);
 
   return (
     <>

@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { Search } from "lucide-react";
 import { fetchSiteSettings } from "@/sanity/lib/fetch";
 import SanityImage from "@/components/shared/SanityImage";
 import AnnouncementBar from "@/components/layout/AnnouncementBar";
 import MegaMenu from "@/components/layout/MegaMenu";
 import MobileNav from "@/components/layout/MobileNav";
 import CartIcon from "@/components/cart/CartIcon";
+import SearchModal from "@/components/search/SearchModal";
 
 export default async function Header() {
   let settings = null;
@@ -62,14 +62,7 @@ export default async function Header() {
 
         {/* Right-side icons */}
         <div className="flex items-center gap-1">
-          {/* Search button (opens modal in Phase 4) */}
-          <Link
-            href="/search"
-            aria-label="Search products"
-            className="flex h-11 w-11 items-center justify-center rounded-md hover:bg-muted transition-colors"
-          >
-            <Search className="h-5 w-5" />
-          </Link>
+          <SearchModal />
 
           {/* Cart */}
           <CartIcon />
