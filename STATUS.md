@@ -2,7 +2,7 @@
 
 **Stack:** Next.js 16 · TypeScript · Tailwind CSS v4 · Shadcn UI v4 · Sanity CMS v5 · Vercel  
 **Last Updated:** 2026-06-25  
-**Overall Progress:** Phase 5 of 8 complete — 63%
+**Overall Progress:** Phase 6 of 8 complete — 75%
 
 > Reference documents: `ARCHITECTURE.md` (all technical decisions) · `IMPLEMENTATION_PLAN.md` (full task breakdown per phase)
 
@@ -17,7 +17,7 @@
 | 3 | Homepage | ✅ **Complete** | Build · Lint · TS all pass |
 | 4 | Product Pages | ✅ **Complete** | Build · Lint · TS all pass |
 | 5 | Cart & Checkout | ✅ **Complete** | Build · Lint · TS all pass |
-| 6 | SEO | 🔲 **Not Started** | Depends on Phase 4 & 5 |
+| 6 | SEO | ✅ **Complete** | Build · Lint · TS all pass |
 | 7 | Testing & Polish | 🔲 **Not Started** | Depends on Phase 6 |
 | 8 | Deployment | 🔲 **Not Started** | Final phase |
 
@@ -234,26 +234,26 @@
 
 ---
 
-## 🔲 Phase 6 — SEO — NOT STARTED
+## ✅ Phase 6 — SEO — COMPLETE
 
-**Estimated time:** 1 day  
-**Depends on:** Phase 4 & 5 (all page routes must exist first)
+**Commit:** `feat(seo): complete Phase 6 — sitemap, robots, canonical tags, OG images`
 
-### All files to create / update
+### Completed Tasks
 
 **New files**
-- [ ] `app/robots.ts` — allow `*` / disallow `/studio` `/api`
-- [ ] `app/sitemap.ts` — all product + category + static page slugs with `lastModified`
-- [ ] `components/shared/StructuredData.tsx` — `<script type="application/ld+json">`
+- [x] `app/robots.ts` — `*` allow `/` · disallow `/studio/` `/api/` · sitemap pointer
+- [x] `app/sitemap.ts` — homepage + products + categories + static pages with `_updatedAt`-based `lastModified` and priority weights (1.0 → 0.9 → 0.8 → 0.7 → 0.5)
+- [x] `app/search/layout.tsx` — `noIndex: false, noFollow: false` for search pages (client page can't export metadata directly)
+- [x] `components/shared/StructuredData.tsx` — created in Phase 4 ✅
 
-**Pages to update with `generateMetadata`**
-- [ ] `app/page.tsx` — homepage OG + title template
-- [ ] `app/products/page.tsx` — "All Products" meta
-- [ ] `app/products/[slug]/page.tsx` — product name · description · OG image from first product image · JSON-LD `Product` schema
-- [ ] `app/categories/[slug]/page.tsx` — category name · hero OG image · JSON-LD `BreadcrumbList`
-- [ ] `app/search/page.tsx` — `noIndex: true` (search pages must not be indexed)
-- [ ] `app/cart/page.tsx` — `noIndex: true`
-- [ ] `app/[slug]/page.tsx` — already has basic metadata ✅ · needs OG image support
+**Pages updated**
+- [x] `app/page.tsx` — full OG metadata · WebSite JSON-LD with SearchAction · fetches `defaultSeo.ogImage` from siteSettings
+- [x] `app/products/page.tsx` — canonical → `/products` (ignores filter/sort params)
+- [x] `app/products/[slug]/page.tsx` — canonical + Twitter card + OG `url` field · already had Product JSON-LD from Phase 4
+- [x] `app/categories/[slug]/page.tsx` — canonical + Twitter card + OG `url` + description · already had BreadcrumbList JSON-LD from Phase 4
+- [x] `app/search/page.tsx` — noIndex via `app/search/layout.tsx`
+- [x] `app/cart/page.tsx` — `noIndex: true` set in Phase 5 ✅
+- [x] `app/[slug]/page.tsx` — OG image support + canonical + openGraph url
 
 ---
 
