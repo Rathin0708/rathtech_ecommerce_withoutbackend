@@ -1,8 +1,8 @@
 # Project Status — RathTech E-Commerce Platform
 
 **Stack:** Next.js 16 · TypeScript · Tailwind CSS v4 · Shadcn UI v4 · Sanity CMS v5 · Vercel  
-**Last Updated:** 2026-06-25  
-**Overall Progress:** Phase 8 of 8 complete — 100% 🎉
+**Last Updated:** 2026-06-26  
+**Overall Progress:** Phase 8 of 8 complete — Deployed to Production 🚀
 
 > Reference documents: `ARCHITECTURE.md` (all technical decisions) · `IMPLEMENTATION_PLAN.md` (full task breakdown per phase)
 
@@ -12,14 +12,14 @@
 
 | Portal | URL | Status |
 |---|---|---|
-| **Live Site** | [https://yourdomain.com](https://yourdomain.com) | Replace after deploy |
-| **Sanity Studio (CMS)** | [https://yourdomain.com/studio](https://yourdomain.com/studio) | Replace after deploy |
-| **Sanity Manage** | [https://sanity.io/manage](https://sanity.io/manage) | Live now |
-| **Vercel Dashboard** | [https://vercel.com/dashboard](https://vercel.com/dashboard) | After Vercel setup |
-| **GitHub Repository** | [https://github.com/YOUR_USERNAME/YOUR_REPO](https://github.com/YOUR_USERNAME/YOUR_REPO) | After GitHub push |
-| **Google Search Console** | [https://search.google.com/search-console](https://search.google.com/search-console) | After domain verified |
+| **Live Site** | [https://rathtech-ecommerce-withoutbackend-vnsd-nyjilqhrk.vercel.app](https://rathtech-ecommerce-withoutbackend-vnsd-nyjilqhrk.vercel.app) | ✅ Live |
+| **Sanity Studio (CMS)** | [https://rathtech-ecommerce-withoutbackend-vnsd-nyjilqhrk.vercel.app/studio](https://rathtech-ecommerce-withoutbackend-vnsd-nyjilqhrk.vercel.app/studio) | ✅ Live |
+| **Sanity Manage** | [https://sanity.io/manage](https://sanity.io/manage) | ✅ Live |
+| **Vercel Dashboard** | [https://vercel.com/rathin007008-7580s-projects/rathtech-ecommerce-withoutbackend-vnsd](https://vercel.com/rathin007008-7580s-projects/rathtech-ecommerce-withoutbackend-vnsd) | ✅ Live |
+| **GitHub Repository** | [https://github.com/Rathin0708/rathtech_ecommerce_withoutbackend](https://github.com/Rathin0708/rathtech_ecommerce_withoutbackend) | ✅ Live |
+| **Google Search Console** | [https://search.google.com/search-console](https://search.google.com/search-console) | Pending domain verification |
 
-> **How to update these:** Once deployed, replace every `yourdomain.com` and `YOUR_USERNAME/YOUR_REPO` above with your actual domain and GitHub repo URL. Then commit.
+> **Custom domain:** When you add a custom domain, replace the Vercel URL above with your final domain.
 
 ---
 
